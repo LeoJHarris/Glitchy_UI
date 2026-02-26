@@ -19,3 +19,6 @@ Thumbs.db
 
 # Crash/diagnostic dumps
 *.stackdump
+
+# Local History for Visual Studio
+.vshistory/
