@@ -214,8 +214,8 @@
                                     <Border.Shadow>
                                         <Shadow
                                             Brush="{StaticResource ShadowStrong}"
-                                            Opacity="{StaticResource ShadowOpacityLight}"
-                                            Radius="{StaticResource ShadowRadiusSmall}"
+                                            Opacity="0.5"
+                                            Radius="0.9"
                                             Offset="0,2" />
                                     </Border.Shadow>
                                     <Border.GestureRecognizers>
