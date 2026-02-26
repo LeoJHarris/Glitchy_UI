@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Glitchy_UI.Controls.NoConnectionView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:Glitchy_UI.Controls"
+    x:Name="this"
+    x:DataType="Controls:NoConnectionView">
+    <ContentView.Content>
+        <VerticalStackLayout Spacing="24" VerticalOptions="Center">
+            <VerticalStackLayout>
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource LabelBodySemiboldStyle}"
+                    Text="{Binding Title, Source={x:Reference this}}" />
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource LabelSecondaryLightStyle}"
+                    Text="{Binding Message, Source={x:Reference this}}" />
+            </VerticalStackLayout>
+            <ActivityIndicator IsRunning="True" Color="{DynamicResource Primary}" />
+        </VerticalStackLayout>
+    </ContentView.Content>
+</ContentView>

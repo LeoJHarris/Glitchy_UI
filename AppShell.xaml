@@ -1,0 +1,146 @@
+<Shell
+    x:Class="Glitchy_UI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:local="clr-namespace:Glitchy_UI"
+    xmlns:root="clr-namespace:Glitchy_UI"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:types="clr-namespace:Glitchy_UI.Types;assembly=Glitchy_UI"
+    xmlns:viewmodel="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    x:Name="this"
+    x:DataType="root:AppShellViewModel"
+    FlyoutBackdrop="#0a090980"
+    FlyoutBehavior="Flyout">
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style
+                ApplyToDerivedTypes="True"
+                Class="FlyoutItemLayoutStyle"
+                TargetType="Layout">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+    <Shell.Behaviors>
+        <toolkit:EventToCommandBehavior
+            x:TypeArguments="ShellNavigatedEventArgs"
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference this}, x:DataType=Shell}"
+            Command="{Binding Source={x:Reference this}, Path=BindingContext.NavigatedCommand, x:DataType=Shell}"
+            EventName="Navigated" />
+    </Shell.Behaviors>
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader
+            HeaderTitle="{Binding Username}"
+            IsDemoModeEnabled="{Binding IsDemoModeEnabled}"
+            UserHandle="{Binding UserHandle}" />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <controls:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+    <TabBar>
+        <Tab Title="Dashboard">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesignIcons"
+                    Glyph="{x:Static fonts:MaterialDesignIcons.HomeOutline}"
+                    Size="24" />
+            </Tab.Icon>
+            <ShellContent
+                x:DataType="viewmodel:DashboardPageViewModel"
+                ContentTemplate="{DataTemplate views:DashboardPage}"
+                Route="dashboard" />
+        </Tab>
+        <Tab Title="Applications">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesignIcons"
+                    Glyph="{x:Static fonts:MaterialDesignIcons.ApplicationOutline}"
+                    Size="24" />
+            </Tab.Icon>
+            <ShellContent
+                x:DataType="viewmodel:ApplicationsPageViewModel"
+                ContentTemplate="{DataTemplate views:ApplicationsPage}"
+                Route="applications" />
+        </Tab>
+        <Tab Title="Audit Log">
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="MaterialDesignIcons"
+                    Glyph="{x:Static fonts:MaterialDesignIcons.History}"
+                    Size="24" />
+            </Tab.Icon>
+            <ShellContent
+                x:DataType="viewmodel:AuditLogPageViewModel"
+                ContentTemplate="{DataTemplate views:AuditLogPage}"
+                Route="auditlog" />
+        </Tab>
+    </TabBar>
+
+    <MenuItem
+        Command="{Binding NotificationsMenuItemTappedCommand}"
+        StyleClass="NotificationsItemLayoutStyle"
+        Text="Notifications">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesignIcons"
+                Glyph="{x:Static fonts:MaterialDesignIcons.BellOutline}"
+                Color="Black" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+    <MenuItem
+        Command="{Binding MobilityWalletMenuItemTappedCommand}"
+        StyleClass="MenuItemLayoutStyle"
+        Text="Mobility Wallet">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesignIcons"
+                Glyph="{x:Static fonts:MaterialDesignIcons.FolderOutline}"
+                Color="Black" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+    <MenuItem
+        Command="{Binding ProfileMenuItemTappedCommand}"
+        StyleClass="MenuItemLayoutStyle"
+        Text="Profile">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesignIcons"
+                Glyph="{x:Static fonts:MaterialDesignIcons.AccountOutline}"
+                Color="Black" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+    <MenuItem
+        Command="{Binding SettingsMenuItemTappedCommand}"
+        StyleClass="MenuItemLayoutStyle"
+        Text="Settings">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="MaterialDesignIcons"
+                Glyph="{x:Static fonts:MaterialDesignIcons.CogOutline}"
+                Color="Black" />
+        </MenuItem.IconImageSource>
+    </MenuItem>
+</Shell>

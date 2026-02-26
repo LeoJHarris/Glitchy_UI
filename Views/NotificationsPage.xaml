@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="Glitchy_UI.Views.NotificationsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:datatemplateselectors="clr-namespace:Glitchy_UI.DataTemplateSelectors"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:groups="clr-namespace:Glitchy_UI.Groups;assembly=Glitchy_UI"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:localviewmodels="clr-namespace:Glitchy_UI.Models.ViewModels;assembly=Glitchy_UI"
+    xmlns:models="clr-namespace:Glitchy_UI.Models.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    x:Name="Root"
+    x:DataType="viewmodels:NotificationsPageViewModel"
+    BackgroundColor="{StaticResource Primary}"
+    Shell.PresentationMode="ModalAnimated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="mfaDataTemplate" x:DataType="localviewmodels:LocalNotificationViewModel">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItemView Command="{Binding DeleteNotificationCommand}" CommandParameter="{Binding .}">
+                                <Grid Margin="0,16,16,0">
+                                    <Border
+                                        BackgroundColor="{StaticResource Danger}"
+                                        HorizontalOptions="Fill"
+                                        StrokeThickness="0"
+                                        WidthRequest="{StaticResource WidthMedium}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                                        </Border.StrokeShape>
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource LabelBodySemiboldStyle}"
+                                            Text="Delete"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
+                                    </Border>
+                                </Grid>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+
+                    <Grid>
+                        <Border
+                            Margin="16,16,16,0"
+                            Padding="{StaticResource Spacing16}"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource BlackTransparent12}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenNotificationCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                ColumnSpacing="{StaticResource Spacing12}"
+                                RowDefinitions="Auto,Auto"
+                                RowSpacing="{StaticResource Spacing10}">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource LabelSecondaryLightStyle}"
+                                    Text="{Binding ReceivedDateTimeOffset, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd • h:mm tt'}"
+                                    TextColor="{StaticResource Gray500}"
+                                    VerticalOptions="Center" />
+
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Padding="10,6"
+                                    BackgroundColor="#E6DAFF"
+                                    HorizontalOptions="End"
+                                    StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="{StaticResource BorderRadiusMedium}" />
+                                    </Border.StrokeShape>
+                                    <Label
+                                        Style="{StaticResource LabelSmallLightStyle}"
+                                        Text="Multi Factor Authentication"
+                                        TextColor="#5B3DB8" />
+                                </Border>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Style="{StaticResource LabelSecondaryRegularStyle}"
+                                    Text="{Binding Message}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </SwipeView>
+            </DataTemplate>
+            <DataTemplate x:Key="reauthDataTemplate" x:DataType="localviewmodels:LocalNotificationViewModel">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItemView Command="{Binding DeleteNotificationCommand}" CommandParameter="{Binding .}">
+                                <Grid Margin="0,16,16,0">
+                                    <Border
+                                        BackgroundColor="{StaticResource Danger}"
+                                        HorizontalOptions="Fill"
+                                        StrokeThickness="0"
+                                        WidthRequest="{StaticResource WidthMedium}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                                        </Border.StrokeShape>
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource LabelBodySemiboldStyle}"
+                                            Text="Delete"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
+                                    </Border>
+                                </Grid>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+
+                    <Grid>
+                        <Border
+                            Margin="16,16,16,0"
+                            Padding="{StaticResource Spacing16}"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource BlackTransparent12}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenNotificationCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                ColumnSpacing="{StaticResource Spacing12}"
+                                RowDefinitions="Auto,Auto"
+                                RowSpacing="{StaticResource Spacing10}">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource LabelSecondaryLightStyle}"
+                                    Text="{Binding ReceivedDateTimeOffset, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd • h:mm tt'}"
+                                    TextColor="#6E6E6E"
+                                    VerticalOptions="Center" />
+
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Padding="10,6"
+                                    BackgroundColor="#D9E9FF"
+                                    HorizontalOptions="End"
+                                    StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="{StaticResource BorderRadiusMedium}" />
+                                    </Border.StrokeShape>
+                                    <Label
+                                        Style="{StaticResource LabelSmallLightStyle}"
+                                        Text="Reauthentication"
+                                        TextColor="#1F56B3" />
+                                </Border>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Style="{StaticResource LabelSecondaryRegularStyle}"
+                                    Text="{Binding Message}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </SwipeView>
+            </DataTemplate>
+            <DataTemplate x:Key="siteRequestDataTemplate" x:DataType="localviewmodels:LocalNotificationViewModel">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Reveal">
+                            <SwipeItemView Command="{Binding BindingContext.DeleteNotificationCommand, Source={x:Reference Root}}" CommandParameter="{Binding .}">
+                                <Grid Margin="0,16,16,0">
+                                    <Border
+                                        BackgroundColor="{StaticResource Danger}"
+                                        HorizontalOptions="Fill"
+                                        StrokeThickness="0"
+                                        WidthRequest="{StaticResource WidthMedium}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                                        </Border.StrokeShape>
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource LabelBodySemiboldStyle}"
+                                            Text="Delete"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
+                                    </Border>
+                                </Grid>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+
+                    <Grid>
+                        <Border
+                            Margin="16,16,16,0"
+                            Padding="{StaticResource Spacing16}"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource BlackTransparent12}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{StaticResource BorderRadiusXXLarge}" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenNotificationCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                ColumnSpacing="{StaticResource Spacing12}"
+                                RowDefinitions="Auto,Auto"
+                                RowSpacing="{StaticResource Spacing10}">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource LabelSecondaryLightStyle}"
+                                    Text="{Binding ReceivedDateTimeOffset, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd • h:mm tt'}"
+                                    TextColor="{StaticResource Gray500}"
+                                    VerticalOptions="Center" />
+
+                                <Border
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Padding="10,6"
+                                    BackgroundColor="#FFE2BF"
+                                    HorizontalOptions="End"
+                                    StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="{StaticResource BorderRadiusMedium}" />
+                                    </Border.StrokeShape>
+                                    <Label
+                                        Style="{StaticResource LabelSmallLightStyle}"
+                                        Text="Pharmacy Site Request"
+                                        TextColor="#995200" />
+                                </Border>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Style="{StaticResource LabelSecondaryRegularStyle}"
+                                    Text="{Binding Message}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </SwipeView>
+            </DataTemplate>
+            <datatemplateselectors:NotificationDataTemplateSelector
+                x:Key="notificationDataTemplateSelector"
+                MFADataTemplate="{StaticResource mfaDataTemplate}"
+                ReauthDataTemplate="{StaticResource reauthDataTemplate}"
+                SiteRequestDataTemplate="{StaticResource siteRequestDataTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Background gradient to avoid the “flat blue” look  -->
+        <Grid Grid.RowSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="{StaticResource Primary}" />
+                    <GradientStop Offset="0.55" Color="{StaticResource Primary}" />
+                    <GradientStop Offset="1" Color="#0B1D3A" />
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+
+        <!--  Header  -->
+        <Grid
+            Grid.Row="0"
+            Padding="12,12,12,8"
+            ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelLargeSemiboldStyle}"
+                Text="Notifications"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+            <Border
+                Grid.Column="1"
+                BackgroundColor="#1AFFFFFF"
+                HeightRequest="{StaticResource TouchTargetMinSize}"
+                HorizontalOptions="End"
+                StrokeThickness="0"
+                VerticalOptions="Center"
+                WidthRequest="{StaticResource TouchTargetMinSize}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="{StaticResource BorderRadiusXLarge}" />
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ClosePageCommand}" />
+                </Border.GestureRecognizers>
+                <Image HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="MaterialDesignIcons"
+                            Glyph="{x:Static fonts:MaterialDesignIcons.Close}"
+                            Size="{StaticResource IconSizeXLarge}"
+                            Color="White" />
+                    </Image.Source>
+                </Image>
+            </Border>
+        </Grid>
+
+        <!--  Content  -->
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding PullToRefreshPageCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <Grid>
+                <CollectionView
+                    x:Name="GroupedNotificationsCollection"
+                    IsGrouped="True"
+                    ItemTemplate="{StaticResource notificationDataTemplateSelector}"
+                    ItemsSource="{Binding NotificationsGroupedCollection}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="{StaticResource Spacing8}" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.EmptyView>
+                        <Grid Padding="{StaticResource Spacing24}" RowDefinitions="*,Auto,*">
+                            <VerticalStackLayout
+                                Grid.Row="1"
+                                HorizontalOptions="Center"
+                                Spacing="{StaticResource Spacing14}"
+                                VerticalOptions="Center">
+
+                                <Border
+                                    BackgroundColor="#1AFFFFFF"
+                                    HeightRequest="{StaticResource AvatarSizeXXLarge}"
+                                    HorizontalOptions="Center"
+                                    StrokeThickness="0"
+                                    WidthRequest="{StaticResource AvatarSizeXXLarge}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="{StaticResource BorderRadiusRound}" />
+                                    </Border.StrokeShape>
+                                    <Image HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="MaterialDesignIcons"
+                                                Glyph="{x:Static fonts:MaterialDesignIcons.BellOutline}"
+                                                Size="{StaticResource IconSizeHero}"
+                                                Color="White" />
+                                        </Image.Source>
+                                    </Image>
+                                </Border>
+
+                                <Label
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource LabelLargeSemiboldStyle}"
+                                    Text="No notifications yet"
+                                    TextColor="White" />
+
+                                <Label
+                                    Margin="0,0,0,6"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource LabelBodyRegularStyle}"
+                                    Text="You're all caught up. Pull down to refresh, and new requests will appear here."
+                                    TextColor="#CCFFFFFF" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="groups:INotificationsGrouped">
+                            <Grid Padding="16,16,16,0" ColumnDefinitions="*,Auto">
+                                <Label
+                                    Style="{StaticResource LabelBodySemiboldStyle}"
+                                    Text="{Binding Date, StringFormat='{}{0:MMMM dd, yyyy}'}"
+                                    TextColor="#E6FFFFFF" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    BackgroundColor="#1AFFFFFF"
+                                    HorizontalOptions="End"
+                                    StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="{StaticResource BorderRadiusLarge}" />
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ClearGroupCommand}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Label
+                                        Margin="12,6"
+                                        Style="{StaticResource LabelSmallLightStyle}"
+                                        Text="Clear"
+                                        TextColor="#E6FFFFFF" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                </CollectionView>
+            </Grid>
+        </RefreshView>
+    </Grid>
+</views:BasePage>

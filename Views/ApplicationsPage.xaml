@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="Glitchy_UI.Views.ApplicationsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:essentials="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:grouped="clr-namespace:Glitchy_UI.Groups"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:tabs="http://sharpnado.com"
+    xmlns:tabviews="clr-namespace:Glitchy_UI.Views.TabViews"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:viewmodels1="clr-namespace:Glitchy_UI.Models.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    Title="Applications"
+    x:DataType="viewmodels:ApplicationsPageViewModel"
+    BackgroundColor="White">
+    <Grid BackgroundColor="White" RowDefinitions="auto, *">
+        <Border
+            Grid.Row="0"
+            Padding="16,12"
+            BackgroundColor="White"
+            Stroke="{StaticResource Gray200}"
+            StrokeShape="RoundRectangle 0"
+            StrokeThickness="1">
+            <tabs:TabHostView
+                x:Name="TabHost"
+                CornerRadius="12"
+                HeightRequest="40"
+                IsSegmented="True"
+                SegmentedHasSeparator="True"
+                SegmentedOutlineColor="{StaticResource Gray300}"
+                SelectedIndex="{Binding Source={x:Reference switcher}, Path=SelectedIndex, Mode=TwoWay, x:DataType=tabs:ViewSwitcher}"
+                TabType="Fixed"
+                VerticalOptions="Center">
+                <tabs:TabHostView.Tabs>
+                    <tabs:SegmentedTabItem
+                        FontFamily="RegularFont"
+                        Label="Active"
+                        LabelSize="13"
+                        Style="{StaticResource SegmentedTabStyle}" />
+                    <tabs:SegmentedTabItem
+                        FontFamily="RegularFont"
+                        Label="Disabled"
+                        LabelSize="13"
+                        Style="{StaticResource SegmentedTabStyle}" />
+                </tabs:TabHostView.Tabs>
+            </tabs:TabHostView>
+        </Border>
+
+        <ContentView Grid.Row="1" Padding="0">
+            <tabs:ViewSwitcher
+                x:Name="switcher"
+                Animate="True"
+                SelectedIndex="{Binding SelectedViewModelIndex}">
+                <tabs:LazyView
+                    x:TypeArguments="tabviews:ActiveSitesTabView"
+                    AccentColor="{StaticResource Primary}"
+                    Animate="False"
+                    BindingContext="{Binding ActiveSitesTabViewModel}"
+                    UseActivityIndicator="True" />
+                <tabs:LazyView
+                    x:TypeArguments="tabviews:DisabledSitesTabView"
+                    Animate="False"
+                    BindingContext="{Binding DisabledSitesTabViewModel}" />
+            </tabs:ViewSwitcher>
+        </ContentView>
+    </Grid>
+</views:BasePage>

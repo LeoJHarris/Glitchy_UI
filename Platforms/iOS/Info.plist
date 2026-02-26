@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>LSRequiresIPhoneOS</key>
+		<true />
+		<key>UIDeviceFamily</key>
+		<array>
+			<integer>1</integer>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		</array>
+		<key>XSAppIconAssets</key>
+		<string>Assets.xcassets/appicon.appiconset</string>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This sample app uses your location to help demonstrate secure access flows, even when the app is in the background.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This sample app uses your location while in use to demonstrate location-dependent UI and flows.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>This sample app uses Face ID for secure authentication.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This sample app uses the camera to capture images for enrollment/authentication demonstrations.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>This sample app needs permission to save photos taken during authentication testing.</string>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+	</dict>
+</plist>

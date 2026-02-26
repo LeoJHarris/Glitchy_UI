@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Glitchy_UI.Controls.FlyoutFooter"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:essentials="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:root="clr-namespace:Glitchy_UI"
+    x:Name="this"
+    Padding="16"
+    x:DataType="root:AppShellViewModel"
+    BackgroundColor="{StaticResource White}">
+    <ContentView.HeightRequest>
+        <OnPlatform x:TypeArguments="x:Double">
+            <On Platform="iOS" Value="140" />
+            <On Platform="Android" Value="-1" />
+        </OnPlatform>
+    </ContentView.HeightRequest>
+    <VerticalStackLayout Spacing="16">
+        <Button
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding LogoutCommand, Source={x:Reference this}}"
+            ContentLayout="Right, 24"
+            Text="Log out"
+            TextColor="White">
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="MaterialDesignIcons"
+                    Glyph="{x:Static fonts:MaterialDesignIcons.Logout}"
+                    Size="24"
+                    Color="White" />
+            </Button.ImageSource>
+        </Button>
+        <Label Style="{StaticResource LabelSecondaryLightStyle}" TextColor="{StaticResource Gray600}">
+            <Label.FormattedText>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span Text="Version" />
+                        <Span Text=" " />
+                        <Span Text="{x:Static essentials:AppInfo.VersionString}" />
+                        <Span Text=" " />
+                        <Span Text="(" />
+                        <Span Text="{x:Static essentials:AppInfo.BuildString}" />
+                        <Span Text=")" />
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+</ContentView>

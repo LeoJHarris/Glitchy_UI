@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="Glitchy_UI.Views.ApplicationDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    x:Name="Page"
+    Title="{Binding ApplicationName}"
+    x:DataType="viewmodel:ApplicationDetailPageViewModel">
+
+    <views:BasePage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference Page}, x:DataType=views:BasePage}"
+            Command="{Binding LoadCommand}"
+            EventName="Appearing" />
+    </views:BasePage.Behaviors>
+
+    <Grid toolkit:StateContainer.CurrentState="{Binding CurrentPageState}">
+        <toolkit:StateContainer.StateViews>
+            <controls:ErrorView toolkit:StateView.StateKey="{x:Static helpers:StateKey.Error}" />
+
+            <shimmer:SfShimmer toolkit:StateView.StateKey="{x:Static helpers:StateKey.Loading}" Style="{StaticResource SfShimmerStyle}">
+                <shimmer:SfShimmer.CustomView>
+                    <VerticalStackLayout Spacing="14">
+                        <shimmer:ShimmerView HeightRequest="120" Style="{StaticResource ShimmerViewStyle}" />
+                        <shimmer:ShimmerView HeightRequest="200" Style="{StaticResource ShimmerViewStyle}" />
+                    </VerticalStackLayout>
+                </shimmer:SfShimmer.CustomView>
+            </shimmer:SfShimmer>
+
+            <RefreshView
+                toolkit:StateView.StateKey="{x:Static helpers:StateKey.Success}"
+                Command="{Binding PullToRefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+                <ScrollView Padding="16">
+                    <VerticalStackLayout Spacing="24">
+
+                        <!--  Application Header  -->
+                        <Border
+                            Padding="20"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource Gray300}"
+                            StrokeShape="RoundRectangle 16">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="16">
+                                <Border
+                                    BackgroundColor="{StaticResource Gray300}"
+                                    HeightRequest="{StaticResource AvatarSizeXXLarge}"
+                                    HorizontalOptions="Center"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="0"
+                                    WidthRequest="{StaticResource AvatarSizeXXLarge}">
+                                    <Image
+                                        Aspect="AspectFit"
+                                        HeightRequest="{StaticResource AvatarSizeLarge}"
+                                        HorizontalOptions="Center"
+                                        Source="{Binding ApplicationLogo}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="{StaticResource AvatarSizeLarge}">
+                                        <Image.Triggers>
+                                            <!--  Show placeholder icon when logo is null or empty  -->
+                                            <DataTrigger
+                                                Binding="{Binding ApplicationLogo, Converter={toolkit:IsStringNullOrEmptyConverter}}"
+                                                TargetType="Image"
+                                                Value="False">
+                                                <Setter Property="Source">
+                                                    <Setter.Value>
+                                                        <FontImageSource
+                                                            FontFamily="MaterialDesignIcons"
+                                                            Glyph="{x:Static fonts:MaterialDesignIcons.ImageOffOutline}"
+                                                            Size="{StaticResource ButtonHeightLarge}"
+                                                            Color="{StaticResource Gray400}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding ApplicationLogo, Converter={toolkit:IsStringNullOrEmptyConverter}}"
+                                                TargetType="Image"
+                                                Value="True">
+                                                <Setter Property="Source">
+                                                    <Setter.Value>
+                                                        <FontImageSource
+                                                            FontFamily="MaterialDesignIcons"
+                                                            Glyph="{x:Static fonts:MaterialDesignIcons.ImageOffOutline}"
+                                                            Size="{StaticResource ButtonHeightLarge}"
+                                                            Color="{StaticResource Gray400}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                </Border>
+                                <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource LabelXLargeSemiboldStyle}"
+                                        Text="{Binding ApplicationName}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource LabelSecondaryRegularStyle}"
+                                        Text="{Binding VendorName}"
+                                        TextColor="{StaticResource Gray500}" />
+                                </VerticalStackLayout>
+                                <Border
+                                    Padding="12,6"
+                                    BackgroundColor="{Binding IsEnabled, Converter={StaticResource BoolToColorConverter}}"
+                                    HorizontalOptions="Center"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="0">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Style="{StaticResource LabelSmallSemiboldStyle}"
+                                        Text="{Binding IsEnabled, Converter={StaticResource BoolToEnabledTextConverter}}"
+                                        TextColor="White" />
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!--  Application Information  -->
+                        <VerticalStackLayout Spacing="12">
+                            <Label Style="{StaticResource LabelBodySemiboldStyle}" Text="Application Information" />
+
+                            <Border
+                                Padding="16"
+                                BackgroundColor="White"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeShape="RoundRectangle 16">
+                                <VerticalStackLayout Spacing="16">
+
+                                    <!--  Account Created Date  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="24"
+                                            VerticalOptions="Center"
+                                            WidthRequest="24">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.CalendarClock}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="Account Created"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label Style="{StaticResource LabelBodyRegularStyle}" TextColor="{StaticResource PrimaryDarkText}">
+                                                <Label.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding CreatedDate, Converter={toolkit:IsNotNullConverter}}"
+                                                        TargetType="Label"
+                                                        Value="True">
+                                                        <Setter Property="Text" Value="{Binding CreatedDate, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd, yyyy'}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding CreatedDate, Converter={toolkit:IsNotNullConverter}}"
+                                                        TargetType="Label"
+                                                        Value="False">
+                                                        <Setter Property="Text" Value="Not available" />
+                                                        <Setter Property="TextColor" Value="{StaticResource Gray400}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <!--  Access Period (if set)  -->
+                                    <Grid
+                                        ColumnDefinitions="Auto, *"
+                                        ColumnSpacing="12"
+                                        IsVisible="{Binding AccessStartDate, Converter={toolkit:IsNotNullConverter}}">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="24"
+                                            VerticalOptions="Center"
+                                            WidthRequest="24">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.CalendarRange}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="Access Period"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding AccessStartDate, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd, yyyy', StringFormat='From: {0}'}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                            <Label
+                                                IsVisible="{Binding AccessEndDate, Converter={toolkit:IsNotNullConverter}}"
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding AccessEndDate, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd, yyyy', StringFormat='Until: {0}'}"
+                                                TextColor="{StaticResource Gray600}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+        </toolkit:StateContainer.StateViews>
+    </Grid>
+</views:BasePage>

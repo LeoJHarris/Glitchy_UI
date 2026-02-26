@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--  Note: For Android please see also Platforms\Android\Resources\values\colors.xml  -->
+
+    <Color x:Key="Primary">#265CC8</Color>
+    <Color x:Key="PrimaryDark">#063777</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="SecondaryDarkText">#9880e5</Color>
+    <Color x:Key="Tertiary">#F5B895</Color>
+
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+    <Color x:Key="Magenta">#D600AA</Color>
+    <Color x:Key="MidnightBlue">#190649</Color>
+    <Color x:Key="OffBlack">#1f1f1f</Color>
+    <Color x:Key="Warning">#265CC8</Color>
+    <Color x:Key="Success">#34C759</Color>
+    <Color x:Key="Danger">#FF3B30</Color>
+    <Color x:Key="DangerTransparent14">#14FF3B30</Color>
+    <Color x:Key="DangerTransparent33">#33FF3B30</Color>
+    <Color x:Key="WarningOrange">#FF981A</Color>
+
+    <Color x:Key="PurpleLight">#E6DAFF</Color>
+    <Color x:Key="Purple">#7C5CBF</Color>
+    <Color x:Key="PurpleDark">#5B3DB8</Color>
+
+    <Color x:Key="BlueLight">#D9E9FF</Color>
+    <Color x:Key="Blue">#1F56B3</Color>
+
+    <Color x:Key="DangerLight">#FFEBEE</Color>
+
+    <Color x:Key="Gray50">#F9FAFB</Color>
+    <Color x:Key="Gray100">#E1E1E1</Color>
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray400">#919191</Color>
+    <Color x:Key="Gray500">#6E6E6E</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray700">#333333</Color>
+    <Color x:Key="Gray800">#2E2E2E</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <Color x:Key="PageBackground">#F6F7FB</Color>
+    <Color x:Key="FilterPanelBackgroundLight">#E8F0FE</Color>
+    <Color x:Key="FilterPanelBackgroundDark">#1E3A5F</Color>
+    <Color x:Key="FilterPanelStrokeLight">#CCDCF4</Color>
+    <Color x:Key="FilterPanelStrokeDark">#2A4D7F</Color>
+
+    <Color x:Key="BlackTransparent">#CC000000</Color>
+    <Color x:Key="BlackTransparent08">#08000000</Color>
+    <Color x:Key="BlackTransparent0D">#0D000000</Color>
+    <Color x:Key="BlackTransparent12">#12000000</Color>
+    <Color x:Key="ShadowLight">#0A000000</Color>
+    <Color x:Key="ShadowMedium">#0F000000</Color>
+    <Color x:Key="ShadowStrong">#1A000000</Color>
+    <Color x:Key="ShadowDark">#1AFFFFFF</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource Danger}" />
+
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}" />
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}" />
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}" />
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}" />
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}" />
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}" />
+    <SolidColorBrush x:Key="Gray700Brush" Color="{StaticResource Gray700}" />
+    <SolidColorBrush x:Key="Gray800Brush" Color="{StaticResource Gray800}" />
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}" />
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}" />
+</ResourceDictionary>

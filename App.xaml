@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="Glitchy_UI.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:converters="clr-namespace:Glitchy_UI.Converters"
+    xmlns:local="clr-namespace:Glitchy_UI"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Sizes.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Templates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <x:Int32 x:Key="ZeroValue">0</x:Int32>
+            <x:Int32 x:Key="OneValue">1</x:Int32>
+
+            <!--#region images-->
+            <x:String x:Key="LogoSource">Glitchy_UI.Resources.EmbeddedResources.logo.png</x:String>
+            <x:String x:Key="LogoWhiteBGSource">logo_white_bg.png</x:String>
+            <!--#endregion-->
+
+            <toolkit:ImageResourceConverter x:Key="ImageResourceConverter" />
+
+            <!--  Toolkit Converters  -->
+            <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+
+            <!--  Custom Converters  -->
+            <converters:FirstLetterConverter x:Key="FirstLetterConverter" />
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:BoolToEnabledTextConverter x:Key="BoolToEnabledTextConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:BoolToAngleConverter x:Key="BoolToAngleConverter" />
+            <converters:BoolToValidationColorConverter x:Key="BoolToValidationColorConverter" />
+            <converters:DateTimeOffsetToLocalStringConverter x:Key="DateTimeOffsetToLocalStringConverter" />
+            <converters:SegmentTextColorConverter x:Key="SegmentTextColorConverter" />
+            <converters:EqualityConverter x:Key="EqualityConverter" />
+            <converters:DocumentTypeToStringConverter x:Key="DocumentTypeToStringConverter" />
+            <converters:VerificationStatusToColorConverter x:Key="VerificationStatusToColorConverter" />
+            <converters:VerificationStatusToStringConverter x:Key="VerificationStatusToStringConverter" />
+            <converters:EmptyStringToPlaceholderConverter x:Key="EmptyStringToPlaceholderConverter" />
+            <converters:IsNotEmptyStringConverter x:Key="IsNotEmptyStringConverter" />
+
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            <toolkit:MathExpressionConverter x:Key="MathExpressionConverter" />
+
+            <!--  Date/Time Format Strings  -->
+            <x:String x:Key="DateFormat">MMM dd, yyyy</x:String>
+            <x:String x:Key="DateTimeFormat">MMM dd, yyyy h:mm tt</x:String>
+            <x:String x:Key="ShortDateFormat">MMM dd</x:String>
+            <x:String x:Key="TimeFormat">h:mm tt</x:String>
+            <x:String x:Key="DateTimeShortFormat">dd MMM yyyy HH:mm</x:String>
+
+            <x:Boolean x:Key="TrueValue">true</x:Boolean>
+            <x:Boolean x:Key="FalseValue">false</x:Boolean>
+
+            <toolkit:CompareConverter
+                x:Key="CompareIsEqualToZeroConverter"
+                ComparingValue="{StaticResource ZeroValue}"
+                ComparisonOperator="Equal"
+                FalseObject="False"
+                TrueObject="True" />
+            <toolkit:CompareConverter
+                x:Key="CompareIsGreaterThanZeroConverter"
+                ComparingValue="{StaticResource ZeroValue}"
+                ComparisonOperator="Greater"
+                FalseObject="False"
+                TrueObject="True" />
+            <toolkit:CompareConverter
+                x:Key="CompareIsLessThanOrEqualToZeroConverter"
+                ComparingValue="{StaticResource ZeroValue}"
+                ComparisonOperator="SmallerOrEqual"
+                FalseObject="False"
+                TrueObject="True" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

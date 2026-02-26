@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="Glitchy_UI.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:models="clr-namespace:Glitchy_UI.Models.ViewModels"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    x:Name="Page"
+    Title="{Binding PageTitle}"
+    x:DataType="viewmodels:DashboardPageViewModel"
+    BackgroundColor="{StaticResource PageBackground}">
+    <views:BasePage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference Page}, x:DataType=views:BasePage}"
+            Command="{Binding LoadCommand}"
+            EventName="Appearing" />
+    </views:BasePage.Behaviors>
+
+    <Grid toolkit:StateContainer.CurrentState="{Binding CurrentPageState}">
+        <toolkit:StateContainer.StateViews>
+            <controls:ErrorView toolkit:StateView.StateKey="{x:Static helpers:StateKey.Error}" />
+            <shimmer:SfShimmer toolkit:StateView.StateKey="{x:Static helpers:StateKey.Loading}" Style="{StaticResource SfShimmerStyle}">
+                <shimmer:SfShimmer.CustomView>
+                    <ScrollView Padding="16,12">
+                        <VerticalStackLayout Spacing="12">
+                            <!--  Invitations section header  -->
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <shimmer:ShimmerView
+                                    HeightRequest="20"
+                                    HorizontalOptions="Start"
+                                    Style="{StaticResource ShimmerViewStyle}"
+                                    WidthRequest="120" />
+                                <shimmer:ShimmerView
+                                    Grid.Column="1"
+                                    HeightRequest="20"
+                                    HorizontalOptions="End"
+                                    Style="{StaticResource ShimmerViewStyle}"
+                                    WidthRequest="32" />
+                            </Grid>
+
+                            <!--  Empty state / card placeholder  -->
+                            <shimmer:ShimmerView HeightRequest="96" Style="{StaticResource ShimmerViewStyle}" />
+
+                            <!--  Invitation cards placeholders  -->
+                            <VerticalStackLayout Spacing="10">
+                                <shimmer:ShimmerView HeightRequest="160" Style="{StaticResource ShimmerViewStyle}" />
+                                <shimmer:ShimmerView HeightRequest="160" Style="{StaticResource ShimmerViewStyle}" />
+                                <shimmer:ShimmerView HeightRequest="160" Style="{StaticResource ShimmerViewStyle}" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </shimmer:SfShimmer.CustomView>
+            </shimmer:SfShimmer>
+            <RefreshView
+                toolkit:StateView.StateKey="{x:Static helpers:StateKey.Success}"
+                Command="{Binding PullToRefreshPageCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+                <ScrollView Padding="16,12">
+                    <VerticalStackLayout Spacing="12">
+
+                        <!--  Invitations Section  -->
+                        <VerticalStackLayout Spacing="10">
+                            <Grid
+                                ColumnDefinitions="*, auto"
+                                ColumnSpacing="12"
+                                IsVisible="{Binding InvitationCount, Converter={StaticResource CompareIsGreaterThanZeroConverter}}">
+                                <Label
+                                    Grid.Column="0"
+                                    Style="{StaticResource LabelSectionTitleStyle}"
+                                    Text="Invitations"
+                                    VerticalOptions="Center" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    Padding="10,5"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    StrokeShape="RoundRectangle 14"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Style="{StaticResource LabelSmallSemiboldStyle}"
+                                        Text="{Binding InvitationCount}"
+                                        TextColor="White" />
+                                </Border>
+                            </Grid>
+
+                            <!--  Empty State  -->
+                            <Border
+                                Padding="32,28"
+                                BackgroundColor="White"
+                                IsVisible="{Binding InvitationCount, Converter={StaticResource CompareIsLessThanOrEqualToZeroConverter}}"
+                                Stroke="{StaticResource Gray200}"
+                                StrokeShape="RoundRectangle 20"
+                                StrokeThickness="1">
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="{StaticResource ShadowLight}"
+                                        Opacity="0.8"
+                                        Radius="8"
+                                        Offset="0,3" />
+                                </Border.Shadow>
+                                <VerticalStackLayout HorizontalOptions="Center" Spacing="16">
+                                    <Border
+                                        BackgroundColor="#F0FDF4"
+                                        HeightRequest="64"
+                                        HorizontalOptions="Center"
+                                        StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="0"
+                                        WidthRequest="64">
+                                        <Image HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.CheckCircleOutline}"
+                                                    Size="32"
+                                                    Color="{StaticResource Success}" />
+                                            </Image.Source>
+                                        </Image>
+                                    </Border>
+                                    <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource LabelEmptyStateTitleStyle}"
+                                            Text="You're all caught up" />
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource LabelEmptyStateSubtitleStyle}"
+                                            Text="No pending invitations" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!--  Invitations List  -->
+                            <CollectionView ItemsSource="{Binding InvitationRequests}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:RequestViewModel">
+                                        <Border
+                                            Margin="0,0,0,12"
+                                            Padding="18"
+                                            BackgroundColor="White"
+                                            Stroke="{StaticResource Gray200}"
+                                            StrokeShape="RoundRectangle 16"
+                                            StrokeThickness="1">
+                                            <Border.Shadow>
+                                                <Shadow
+                                                    Brush="{StaticResource ShadowStrong}"
+                                                    Opacity="0.12"
+                                                    Radius="12"
+                                                    Offset="0,4" />
+                                            </Border.Shadow>
+
+                                            <VerticalStackLayout Spacing="16">
+                                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        Style="{StaticResource LabelSmallLightStyle}"
+                                                        Text="{Binding CreatedDateTimeOffset, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd, yyyy', StringFormat='Invited on {0}'}"
+                                                        TextColor="{StaticResource Gray500}"
+                                                        VerticalOptions="Center" />
+
+                                                    <Border
+                                                        Grid.Column="1"
+                                                        Padding="12,6"
+                                                        BackgroundColor="{StaticResource WarningOrange}"
+                                                        HorizontalOptions="End"
+                                                        StrokeShape="RoundRectangle 14"
+                                                        StrokeThickness="0"
+                                                        VerticalOptions="Center">
+                                                        <Label
+                                                            Style="{StaticResource LabelSmallSemiboldStyle}"
+                                                            Text="Site Invitation"
+                                                            TextColor="White" />
+                                                    </Border>
+                                                </Grid>
+
+                                                <VerticalStackLayout Spacing="6">
+                                                    <Label Style="{StaticResource LabelCardTitleStyle}" Text="{Binding SiteName}" />
+                                                    <Label
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource LabelSecondaryRegularStyle}"
+                                                        Text="{Binding SiteAddress}"
+                                                        TextColor="{StaticResource Gray600}" />
+                                                </VerticalStackLayout>
+
+                                                <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                                                    <Button
+                                                        Grid.Column="0"
+                                                        Padding="16,14"
+                                                        BackgroundColor="Transparent"
+                                                        BorderColor="{StaticResource Gray300}"
+                                                        BorderWidth="1.5"
+                                                        Command="{Binding DeclineRequest}"
+                                                        CommandParameter="{Binding .}"
+                                                        CornerRadius="14"
+                                                        FontAttributes="Bold"
+                                                        FontSize="15"
+                                                        Text="Decline"
+                                                        TextColor="{StaticResource Gray900}" />
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Padding="16,14"
+                                                        BackgroundColor="{StaticResource Success}"
+                                                        BorderWidth="0"
+                                                        Command="{Binding AcceptRequest}"
+                                                        CommandParameter="{Binding .}"
+                                                        CornerRadius="14"
+                                                        FontAttributes="Bold"
+                                                        FontSize="15"
+                                                        Text="Accept"
+                                                        TextColor="White">
+                                                        <Button.Shadow>
+                                                            <Shadow
+                                                                Brush="{StaticResource Success}"
+                                                                Opacity="0.3"
+                                                                Radius="8"
+                                                                Offset="0,4" />
+                                                        </Button.Shadow>
+                                                    </Button>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+        </toolkit:StateContainer.StateViews>
+    </Grid>
+</views:BasePage>

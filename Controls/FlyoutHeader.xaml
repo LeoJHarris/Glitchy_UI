@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Glitchy_UI.Controls.FlyoutHeader"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    x:Name="this"
+    x:DataType="controls:FlyoutHeader"
+    BackgroundColor="{StaticResource Primary}">
+    <ContentView.HeightRequest>
+        <OnPlatform x:TypeArguments="x:Double">
+            <On Platform="iOS" Value="150" />
+            <On Platform="Android" Value="-1" />
+        </OnPlatform>
+    </ContentView.HeightRequest>
+    <Grid ColumnDefinitions="*,auto" ColumnSpacing="16">
+        <VerticalStackLayout
+            Grid.Column="0"
+            Margin="16,16,0,16"
+            Spacing="14">
+            <ContentView>
+                <ContentView.Triggers>
+                    <DataTrigger
+                        Binding="{Binding IsDemoModeEnabled}"
+                        TargetType="ContentView"
+                        Value="False">
+                        <Setter Property="Content">
+                            <Image
+                                HeightRequest="50"
+                                HorizontalOptions="Start"
+                                Source="{StaticResource LogoWhiteBGSource}"
+                                WidthRequest="50" />
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding IsDemoModeEnabled}"
+                        TargetType="ContentView"
+                        Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Grid>
+                                    <Image
+                                        HeightRequest="50"
+                                        HorizontalOptions="Start"
+                                        Source="{StaticResource LogoWhiteBGSource}"
+                                        WidthRequest="50" />
+                                    <Border
+                                        Margin="-16,0"
+                                        BackgroundColor="#AA000000"
+                                        StrokeShape="RoundRectangle 0,4,0,4"
+                                        StrokeThickness="0">
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource LabelLargeSemiboldStyle}"
+                                            Text="DEMO"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
+                                    </Border>
+                                </Grid>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </ContentView.Triggers>
+            </ContentView>
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    Style="{StaticResource LabelBodySemiboldStyle}"
+                    Text="{Binding HeaderTitle, Source={x:Reference this}}"
+                    TextColor="White" />
+                <Label
+                    Opacity="0.85"
+                    Style="{StaticResource LabelSmallRegularStyle}"
+                    Text="{Binding UserHandle, Source={x:Reference this}}"
+                    TextColor="White" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+        <ContentView
+            Grid.Column="1"
+            Padding="16"
+            VerticalOptions="Start">
+            <ContentView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseHeaderCommand, Source={x:Reference this}}" />
+            </ContentView.GestureRecognizers>
+            <Image>
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialDesignIcons"
+                        Glyph="{x:Static fonts:MaterialDesignIcons.Close}"
+                        Size="24"
+                        Color="White" />
+                </Image.Source>
+            </Image>
+        </ContentView>
+    </Grid>
+</ContentView>

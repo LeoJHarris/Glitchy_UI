@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="Glitchy_UI.Views.TabViews.ActiveSitesTabView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:essentials="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:grouped="clr-namespace:Glitchy_UI.Groups"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:tabs="http://sharpnado.com"
+    xmlns:tabviewmodels="clr-namespace:Glitchy_UI.ViewModels.TabViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:viewmodels1="clr-namespace:Glitchy_UI.Models.ViewModels"
+    toolkit:StateContainer.CurrentState="{Binding CurrentTabViewContentState}"
+    x:DataType="tabviewmodels:ActiveSitesTabViewModel"
+    BackgroundColor="{StaticResource PageBackground}">
+    <toolkit:StateContainer.StateViews>
+        <controls:ErrorView toolkit:StateView.StateKey="{x:Static helpers:StateKey.Error}" />
+        <shimmer:SfShimmer toolkit:StateView.StateKey="{x:Static helpers:StateKey.Loading}" Style="{StaticResource SfShimmerStyle}">
+            <shimmer:SfShimmer.CustomView>
+                <Grid
+                    Margin="16"
+                    BackgroundColor="{StaticResource PageBackground}"
+                    RowDefinitions="*, auto">
+                    <VerticalStackLayout Grid.Row="0" Spacing="14">
+                        <VerticalStackLayout Spacing="4">
+                            <shimmer:ShimmerView
+                                HeightRequest="{StaticResource ShimmerHeightMedium}"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource ShimmerViewStyle}"
+                                WidthRequest="{StaticResource WidthNormal}" />
+                            <shimmer:ShimmerView
+                                HeightRequest="{StaticResource ShimmerHeightSmall}"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource ShimmerViewStyle}"
+                                WidthRequest="{StaticResource WidthSmall}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <shimmer:ShimmerView HeightRequest="{StaticResource ShimmerHeightLarge}" Style="{StaticResource ShimmerViewStyle}" />
+                            <shimmer:ShimmerView HeightRequest="{StaticResource ShimmerHeightLarge}" Style="{StaticResource ShimmerViewStyle}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                    <shimmer:ShimmerView
+                        Grid.Row="1"
+                        HeightRequest="{StaticResource ButtonHeightLarge}"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource ShimmerViewStyle}"
+                        VerticalOptions="End"
+                        WidthRequest="{StaticResource WidthXLarge}" />
+                </Grid>
+            </shimmer:SfShimmer.CustomView>
+        </shimmer:SfShimmer>
+        <RefreshView
+            toolkit:StateView.StateKey="{x:Static helpers:StateKey.Success}"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                Margin="16"
+                BackgroundColor="{StaticResource PageBackground}"
+                ItemSizingStrategy="MeasureAllItems"
+                ItemsSource="{Binding ActiveSitesGrouped}"
+                SelectionMode="None">
+                <CollectionView.Header>
+                    <ContentView />
+                </CollectionView.Header>
+                <CollectionView.Footer>
+                    <ContentView />
+                </CollectionView.Footer>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label
+                        Margin="24,24"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource LabelBodyLightStyle}"
+                        Text="You don't have access to any applications right now."
+                        TextColor="{StaticResource Gray600}" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="grouped:IApplicationsGrouped">
+                        <Border
+                            Margin="0"
+                            Padding="0"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource Gray200}"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="1">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="{StaticResource ShadowStrong}"
+                                    Opacity="1"
+                                    Radius="10"
+                                    Offset="0,2" />
+                            </Border.Shadow>
+                            <toolkit:Expander x:Name="expander" IsExpanded="{Binding IsExpanded}">
+                                <!--  Site Header  -->
+                                <toolkit:Expander.Header>
+                                    <Grid
+                                        Padding="16,14"
+                                        ColumnDefinitions="*, Auto"
+                                        ColumnSpacing="14">
+                                        <!--  Site Info  -->
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="4"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Style="{StaticResource LabelBodySemiboldStyle}"
+                                                Text="{Binding SiteName}"
+                                                TextColor="{StaticResource Primary}" />
+                                            <Label
+                                                Opacity="0.9"
+                                                Style="{StaticResource LabelSmallRegularStyle}"
+                                                Text="{Binding SiteAddress}"
+                                                TextColor="{StaticResource Gray500}" />
+                                        </VerticalStackLayout>
+
+                                        <!--  Right side: badge + chevron  -->
+                                        <Grid
+                                            Grid.Column="1"
+                                            ColumnDefinitions="Auto,Auto"
+                                            ColumnSpacing="12"
+                                            VerticalOptions="Center">
+                                            <Border
+                                                Grid.Column="0"
+                                                Padding="8,4"
+                                                BackgroundColor="{StaticResource Primary}"
+                                                StrokeShape="RoundRectangle 12"
+                                                StrokeThickness="0"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    Style="{StaticResource LabelSmallSemiboldStyle}"
+                                                    Text="{Binding ApplicationsCount}"
+                                                    TextColor="White" />
+                                            </Border>
+
+                                            <Image Grid.Column="1" VerticalOptions="Center">
+                                                <Image.Source>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialDesignIcons"
+                                                        Glyph="{x:Static fonts:MaterialDesignIcons.ChevronDown}"
+                                                        Size="{StaticResource IconSizeLarge}"
+                                                        Color="{StaticResource Gray600}" />
+                                                </Image.Source>
+                                                <Image.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding x:DataType='toolkit:Expander', Source={x:Reference expander}, Path=IsExpanded}"
+                                                        TargetType="Image"
+                                                        Value="True">
+                                                        <Setter Property="Source">
+                                                            <Setter.Value>
+                                                                <FontImageSource
+                                                                    FontFamily="MaterialDesignIcons"
+                                                                    Glyph="{x:Static fonts:MaterialDesignIcons.ChevronUp}"
+                                                                    Size="{StaticResource IconSizeLarge}"
+                                                                    Color="{StaticResource Gray600}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding x:DataType='toolkit:Expander', Source={x:Reference expander}, Path=IsExpanded}"
+                                                        TargetType="Image"
+                                                        Value="False">
+                                                        <Setter Property="Source">
+                                                            <Setter.Value>
+                                                                <FontImageSource
+                                                                    FontFamily="MaterialDesignIcons"
+                                                                    Glyph="{x:Static fonts:MaterialDesignIcons.ChevronDown}"
+                                                                    Size="20"
+                                                                    Color="{StaticResource Gray600}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Image.Triggers>
+                                            </Image>
+                                        </Grid>
+                                    </Grid>
+                                </toolkit:Expander.Header>
+
+                                <!--  Applications Content  -->
+                                <toolkit:Expander.Content>
+                                    <VerticalStackLayout Padding="16,8,16,16" Spacing="14">
+                                        <VerticalStackLayout
+                                            Padding="0,8,0,0"
+                                            BindableLayout.ItemsSource="{Binding .}"
+                                            Spacing="16">
+                                            <BindableLayout.EmptyView>
+                                                <Label
+                                                    Margin="16,8"
+                                                    Style="{StaticResource LabelBodyLightStyle}"
+                                                    Text="No active applications available for this site."
+                                                    TextColor="{StaticResource Gray600}" />
+                                            </BindableLayout.EmptyView>
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate x:DataType="viewmodels1:ApplicationViewModel">
+                                                    <VerticalStackLayout Spacing="14">
+                                                        <BoxView BackgroundColor="{StaticResource Gray200}" HeightRequest="1" />
+                                                        <Grid ColumnDefinitions="*, auto" ColumnSpacing="12">
+                                                            <Label
+                                                                Grid.Column="0"
+                                                                Style="{StaticResource LabelSecondaryLightStyle}"
+                                                                VerticalOptions="Center">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Last signed in: " />
+                                                                        <Span Text="{Binding EffectiveLastSignedInLabel}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <ImageButton
+                                                                Grid.Column="1"
+                                                                Padding="8"
+                                                                BackgroundColor="Transparent"
+                                                                Command="{Binding OptionsTappedCommand}"
+                                                                HeightRequest="{StaticResource TouchTargetMinSize}"
+                                                                HorizontalOptions="End"
+                                                                VerticalOptions="Center"
+                                                                WidthRequest="{StaticResource TouchTargetMinSize}">
+                                                                <ImageButton.Source>
+                                                                    <FontImageSource
+                                                                        FontFamily="MaterialDesignIcons"
+                                                                        Glyph="{x:Static fonts:MaterialDesignIcons.DotsVertical}"
+                                                                        Size="{StaticResource IconSizeXLarge}"
+                                                                        Color="{StaticResource Primary}" />
+                                                                </ImageButton.Source>
+                                                            </ImageButton>
+                                                        </Grid>
+                                                        <Grid ColumnDefinitions="auto, *" ColumnSpacing="14">
+                                                            <Grid
+                                                                Grid.Column="0"
+                                                                HeightRequest="{StaticResource AvatarSizeMedium}"
+                                                                WidthRequest="{StaticResource AvatarSizeMedium}">
+                                                                <Image
+                                                                    HeightRequest="{StaticResource AvatarSizeMedium}"
+                                                                    HorizontalOptions="Center"
+                                                                    IsVisible="{Binding HasLogo}"
+                                                                    Source="{Binding ApplicationLogo}"
+                                                                    VerticalOptions="Center"
+                                                                    WidthRequest="{StaticResource AvatarSizeMedium}" />
+                                                                <Border
+                                                                    BackgroundColor="{StaticResource Gray100}"
+                                                                    IsVisible="{Binding HasLogo, Converter={StaticResource InverseBoolConverter}}"
+                                                                    Stroke="{StaticResource Gray200}"
+                                                                    StrokeShape="RoundRectangle 10">
+                                                                    <Image HorizontalOptions="Center" VerticalOptions="Center">
+                                                                        <Image.Source>
+                                                                            <FontImageSource
+                                                                                FontFamily="MaterialDesignIcons"
+                                                                                Glyph="{x:Static fonts:MaterialDesignIcons.ApplicationOutline}"
+                                                                                Size="{StaticResource IconSizeNormal}"
+                                                                                Color="{StaticResource Gray600}" />
+                                                                        </Image.Source>
+                                                                    </Image>
+                                                                </Border>
+                                                            </Grid>
+                                                            <VerticalStackLayout
+                                                                Grid.Column="1"
+                                                                Spacing="6"
+                                                                VerticalOptions="Center">
+                                                                <Label
+                                                                    Style="{StaticResource LabelBodySemiboldStyle}"
+                                                                    Text="{Binding ApplicationName}"
+                                                                    VerticalOptions="Center"
+                                                                    VerticalTextAlignment="Center" />
+                                                                <HorizontalStackLayout Spacing="4">
+                                                                    <Label
+                                                                        Style="{StaticResource LabelSecondaryLightStyle}"
+                                                                        Text="Status:"
+                                                                        VerticalOptions="Center"
+                                                                        VerticalTextAlignment="Center" />
+                                                                    <Label
+                                                                        Style="{StaticResource LabelSecondaryRegularStyle}"
+                                                                        VerticalOptions="Center"
+                                                                        VerticalTextAlignment="Center">
+                                                                        <Label.Triggers>
+                                                                            <DataTrigger
+                                                                                Binding="{Binding Enabled}"
+                                                                                TargetType="Label"
+                                                                                Value="True">
+                                                                                <Setter Property="Text" Value="Enabled" />
+                                                                                <Setter Property="TextColor" Value="{StaticResource Success}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger
+                                                                                Binding="{Binding Enabled}"
+                                                                                TargetType="Label"
+                                                                                Value="False">
+                                                                                <Setter Property="Text" Value="Disabled" />
+                                                                                <Setter Property="TextColor" Value="{StaticResource Danger}" />
+                                                                            </DataTrigger>
+                                                                        </Label.Triggers>
+                                                                    </Label>
+                                                                </HorizontalStackLayout>
+                                                            </VerticalStackLayout>
+                                                        </Grid>
+                                                    </VerticalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </toolkit:Expander.Content>
+                            </toolkit:Expander>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </toolkit:StateContainer.StateViews>
+</Grid>

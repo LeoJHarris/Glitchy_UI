@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="Glitchy_UI.Views.AuditLogDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Glitchy_UI.Controls"
+    xmlns:fonts="clr-namespace:Glitchy_UI.Resources.Fonts"
+    xmlns:helpers="clr-namespace:Glitchy_UI.Helpers"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:Glitchy_UI.ViewModels"
+    xmlns:views="clr-namespace:Glitchy_UI.Views"
+    x:Name="Page"
+    Title="Audit Log Details"
+    x:DataType="viewmodel:AuditLogDetailPageViewModel">
+
+    <views:BasePage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference Page}, x:DataType=views:BasePage}"
+            Command="{Binding LoadCommand}"
+            EventName="Appearing" />
+    </views:BasePage.Behaviors>
+
+    <Grid toolkit:StateContainer.CurrentState="{Binding CurrentPageState}">
+        <toolkit:StateContainer.StateViews>
+            <controls:ErrorView toolkit:StateView.StateKey="{x:Static helpers:StateKey.Error}" />
+
+            <shimmer:SfShimmer toolkit:StateView.StateKey="{x:Static helpers:StateKey.Loading}" Style="{StaticResource SfShimmerStyle}">
+                <shimmer:SfShimmer.CustomView>
+                    <ScrollView Padding="16">
+                        <VerticalStackLayout Spacing="24">
+                            <!--  Header card placeholder  -->
+                            <shimmer:ShimmerView HeightRequest="180" Style="{StaticResource ShimmerViewStyle}" />
+
+                            <!--  Section title placeholder  -->
+                            <shimmer:ShimmerView
+                                HeightRequest="20"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource ShimmerViewStyle}"
+                                WidthRequest="140" />
+
+                            <!--  Details card placeholder  -->
+                            <shimmer:ShimmerView HeightRequest="420" Style="{StaticResource ShimmerViewStyle}" />
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </shimmer:SfShimmer.CustomView>
+            </shimmer:SfShimmer>
+
+            <RefreshView
+                toolkit:StateView.StateKey="{x:Static helpers:StateKey.Success}"
+                Command="{Binding PullToRefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+                <ScrollView Padding="16">
+                    <VerticalStackLayout Spacing="24">
+
+                        <!--  Action Header  -->
+                        <Border
+                            Padding="20"
+                            BackgroundColor="White"
+                            Stroke="{StaticResource Gray300}"
+                            StrokeShape="RoundRectangle 16">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="12">
+                                <Image
+                                    HeightRequest="{StaticResource AvatarSizeLarge}"
+                                    HorizontalOptions="Center"
+                                    WidthRequest="{StaticResource AvatarSizeLarge}">
+                                    <Image.Source>
+                                        <FontImageSource
+                                            FontFamily="MaterialDesignIcons"
+                                            Glyph="{x:Static fonts:MaterialDesignIcons.FileDocumentOutline}"
+                                            Size="{StaticResource AvatarSizeLarge}"
+                                            Color="{StaticResource Primary}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource LabelLargeSemiboldStyle}"
+                                    Text="{Binding ActionDescription}"
+                                    TextColor="{StaticResource PrimaryDarkText}" />
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource LabelSecondaryRegularStyle}"
+                                    Text="{Binding LogDate, Converter={StaticResource DateTimeOffsetToLocalStringConverter}, ConverterParameter='MMM dd, yyyy h:mm tt'}"
+                                    TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!--  Details Section  -->
+                        <VerticalStackLayout Spacing="12">
+                            <Label Style="{StaticResource LabelBodySemiboldStyle}" Text="Event Details" />
+
+                            <Border
+                                Padding="16"
+                                BackgroundColor="White"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeShape="RoundRectangle 16">
+                                <VerticalStackLayout Spacing="16">
+
+                                    <!--  User Name  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="24"
+                                            VerticalOptions="Center"
+                                            WidthRequest="24">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.Account}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="User"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding UserName}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <BoxView
+                                        BackgroundColor="{StaticResource Gray200}"
+                                        HeightRequest="1"
+                                        HorizontalOptions="Fill" />
+
+                                    <!--  Site Name  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="{StaticResource IconSizeXLarge}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="{StaticResource IconSizeXLarge}">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.MapMarker}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="Site"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding SiteName, TargetNullValue='N/A', FallbackValue='N/A'}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <BoxView
+                                        BackgroundColor="{StaticResource Gray200}"
+                                        HeightRequest="1"
+                                        HorizontalOptions="Fill" />
+
+                                    <!--  Application Name  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="{StaticResource IconSizeXLarge}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="{StaticResource IconSizeXLarge}">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.Apps}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="Application"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding AppName, TargetNullValue='N/A', FallbackValue='N/A'}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <BoxView
+                                        BackgroundColor="{StaticResource Gray200}"
+                                        HeightRequest="1"
+                                        HorizontalOptions="Fill" />
+
+                                    <!--  IP Address  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="{StaticResource IconSizeXLarge}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="{StaticResource IconSizeXLarge}">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.IpNetwork}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="IP Address"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                FontFamily="monospace"
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding IpAddress}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <BoxView
+                                        BackgroundColor="{StaticResource Gray200}"
+                                        HeightRequest="1"
+                                        HorizontalOptions="Fill" />
+
+                                    <!--  Action Type  -->
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="{StaticResource IconSizeXLarge}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="{StaticResource IconSizeXLarge}">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    FontFamily="MaterialDesignIcons"
+                                                    Glyph="{x:Static fonts:MaterialDesignIcons.InformationOutline}"
+                                                    Size="{StaticResource IconSizeXLarge}"
+                                                    Color="{StaticResource Primary}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label
+                                                Style="{StaticResource LabelSmallLightStyle}"
+                                                Text="Action Type"
+                                                TextColor="{StaticResource Gray500}" />
+                                            <Label
+                                                Style="{StaticResource LabelBodyRegularStyle}"
+                                                Text="{Binding ActionDisplay}"
+                                                TextColor="{StaticResource PrimaryDarkText}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+        </toolkit:StateContainer.StateViews>
+    </Grid>
+</views:BasePage>
