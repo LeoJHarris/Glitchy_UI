@@ -61,7 +61,7 @@
     </Shell.FlyoutFooter>
 
     <TabBar>
-        <Tab Title="Dashboard">
+        <Tab Title="Tab 1">
             <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialDesignIcons"
@@ -73,7 +73,7 @@
                 ContentTemplate="{DataTemplate views:DashboardPage}"
                 Route="dashboard" />
         </Tab>
-        <Tab Title="Applications">
+        <Tab Title="Tab 2">
             <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialDesignIcons"
@@ -85,7 +85,7 @@
                 ContentTemplate="{DataTemplate views:ApplicationsPage}"
                 Route="applications" />
         </Tab>
-        <Tab Title="Audit Log">
+        <Tab Title="Tab 3">
             <Tab.Icon>
                 <FontImageSource
                     FontFamily="MaterialDesignIcons"
@@ -107,17 +107,6 @@
             <FontImageSource
                 FontFamily="MaterialDesignIcons"
                 Glyph="{x:Static fonts:MaterialDesignIcons.BellOutline}"
-                Color="Black" />
-        </MenuItem.IconImageSource>
-    </MenuItem>
-    <MenuItem
-        Command="{Binding MobilityWalletMenuItemTappedCommand}"
-        StyleClass="MenuItemLayoutStyle"
-        Text="Mobility Wallet">
-        <MenuItem.IconImageSource>
-            <FontImageSource
-                FontFamily="MaterialDesignIcons"
-                Glyph="{x:Static fonts:MaterialDesignIcons.FolderOutline}"
                 Color="Black" />
         </MenuItem.IconImageSource>
     </MenuItem>

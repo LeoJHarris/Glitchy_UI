@@ -63,6 +63,10 @@
                 IsRefreshing="{Binding IsRefreshing}">
                 <ScrollView Padding="16,12">
                     <VerticalStackLayout Spacing="12">
+                        <Label
+                            Style="{StaticResource LabelSectionTitleStyle}"
+                            Text="This is Tab 1"
+                            TextColor="{StaticResource Gray600}" />
 
                         <!--  Invitations Section  -->
                         <VerticalStackLayout Spacing="10">

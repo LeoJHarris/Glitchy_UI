@@ -133,7 +133,13 @@
                         IsGrouped="True"
                         ItemsSource="{Binding AuditLogs}">
                         <CollectionView.Header>
-                            <ContentView />
+                            <ContentView>
+                                <Label
+                                    Margin="16,16,16,0"
+                                    Style="{StaticResource LabelBodySemiboldStyle}"
+                                    Text="This is Tab 3"
+                                    TextColor="{StaticResource Gray600}" />
+                            </ContentView>
                         </CollectionView.Header>
                         <CollectionView.Footer>
                             <ContentView />
